@@ -176,9 +176,6 @@ players = int(input("How many people would like to play? "))
 deck = singleDeck * (players // 3)
 
 hands, deck, dealerHand = drawHands(players, deck)
-#hands = [['J','A'],[10, '?']]
-#dealerHand = [10, 9]
-#deck = singleDeck
 
 if players > 1:
     print("Here are the hands... {} and the Dealer has {}".format(hands[0:-1], hands[-1]))
@@ -194,7 +191,6 @@ for player in range(players):
         hand, deck = playBlackjack(hand, deck)
     finalHands.append(hand)
 
-   
 dealerAction(dealerHand, deck)
 
 for player in range(players):
