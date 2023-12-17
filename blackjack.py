@@ -5,13 +5,7 @@ import time
 cards = ["A", "K", "Q", "J", 10, 9, 8, 7, 6, 5, 4, 3, 2]
 cardVal = [[11, 1], 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2]
 
-'''
-for x in range(10):
-    print(cards[random.randint(0,len(cards)-1)])
-'''
-
 singleDeck = cards * 4
-doubleDecks = singleDeck * 2
 
 def drawHands(players, deck):
     totalPlayers = players + 1           #draw a hand for the dealer too
@@ -96,7 +90,9 @@ def dealerAction(dealerHand, deck):
     return dealerHand, handVal
 
 def results(hand, dealerHand):
-    if calcValue(hand) > calcValue(dealerHand) and calcValue(hand) <= 21:
+    if calcValue(hand) > 21:
+        print('You busted, pal')
+    elif calcValue(hand) > calcValue(dealerHand) and calcValue(hand) <= 21:
         print("You Win! Your hand {} beat the Dealer's hand {}".format(hand, dealerHand))
     elif calcValue(hand) <= 21 and calcValue(dealerHand) > 21:
         print('You Win! The Dealer busted: {}'.format(dealerHand))
@@ -106,10 +102,7 @@ def results(hand, dealerHand):
         print("You Lose... The Dealer's hand {} was better than yours {}".format(dealerHand, hand))
 
 players = int(input("How many people would like to play? "))
-if players <= 3:
-    deck = singleDeck
-else:
-    deck = doubleDecks
+deck = singleDeck * (players // 3)
 
 hands, deck, dealerHand = drawHands(players, deck)
 
