@@ -101,39 +101,109 @@ def results(hand, dealerHand):
     else:
         print("You Lose... The Dealer's hand {} was better than yours {}".format(dealerHand, hand))
 
+def playBlackjack(hand, deck, is_first = True):
+    #dealing with hands to split
+    if is_first:
+        if hand[0] == hand[1]:
+            split = input("You got 'doubles'. Would you like to split? ('Yes' or 'No') ")
+            if split == "Yes":
+                splitHands, deck = splitter(hand,deck)
+                hand = splitHands
+                print(hand)
+            
+        #dealing with hands to double down
+        else:
+            doubleDown = input("Would you like to double down? ('Yes' or 'No') ")
+            time.sleep(1)
+            if doubleDown == "Yes":
+                hand, deck = hit(hand, deck)
+                return hand, deck
+            else:
+                hitOrStay = input("Would you like to hit? ('Yes' or 'No') ")
+                while hitOrStay == "Yes":
+                    hand, deck = hit(hand, deck)
+                    if calcValue(hand) < 21:
+                        print('Your new hand is {}'.format(hand))
+                        hitOrStay = input("Would you like to hit? ('Yes' or 'No') ")
+                    elif calcValue(hand) == 21:
+                        print('You are sitting pretty at 21')
+                        hitOrStay = "No"
+                    else:
+                        print('Sorry, your turn is over')
+                        hitOrStay = "No"
+    else:
+        doubleDown = input("Would you like to double down? ('Yes' or 'No') ")
+        time.sleep(1)
+        if doubleDown == "Yes":
+            hand, deck = hit(hand, deck)
+            return hand, deck
+        else:
+            hitOrStay = input("Would you like to hit? ('Yes' or 'No') ")
+            while hitOrStay == "Yes":
+                hand, deck = hit(hand, deck)
+                if calcValue(hand) < 21:
+                    print('Your new hand is {}'.format(hand))
+                    hitOrStay = input("Would you like to hit? ('Yes' or 'No') ")
+                elif calcValue(hand) == 21:
+                    print('You are sitting pretty at 21')
+                    hitOrStay = "No"
+                else:
+                    print('Sorry, your turn is over')
+                    hitOrStay = "No"
+
+    return hand, deck
+
+def splitter(hand, deck):
+    splitHands = []
+    for card in hand:
+        newCard, deck = pickCard(deck)
+        newHand = [card,newCard]
+        print('Your new hand is {}'.format(newHand))
+        blackjack = checkBlackjack(newHand)
+        if blackjack != 1:
+            newHand, deck = playBlackjack(newHand, deck, is_first=False)
+        splitHands.append(newHand)
+
+    return splitHands, deck
+
+def checkBlackjack(hand):
+    if calcValue(hand) == 21:
+        print('Nice, you got a blackjack!')
+        return 1
+    return 0
+
 players = int(input("How many people would like to play? "))
 deck = singleDeck * (players // 3)
 
 hands, deck, dealerHand = drawHands(players, deck)
+#hands = [['J','A'],[10, '?']]
+#dealerHand = [10, 9]
+#deck = singleDeck
 
 if players > 1:
     print("Here are the hands... {} and the Dealer has {}".format(hands[0:-1], hands[-1]))
 
+finalHands = []
 for player in range(players):
     print("Player {} it is your turn...".format(player + 1))
     time.sleep(1)
     hand = hands[player]
     print("Your hand is {}, while the Dealer has {}".format(hands[player], hands[-1]))
     time.sleep(1)
-    if calcValue(hand) == 21:
-        print('Blackjack! Nice, you win!')
-    else:
-        hitOrStay = input("Would you like to hit? ('Yes' or 'No') ")
-        while hitOrStay == "Yes":
-            hand, deck = hit(hand, deck)
-            if calcValue(hand) < 21:
-                print('Your new hand is {}'.format(hand))
-                hitOrStay = input("Would you like to hit? ('Yes' or 'No') ")
-            elif calcValue(hand) == 21:
-                print('You are sitting pretty at 21')
-                hitOrStay = "No"
-            else:
-                print('Sorry, your turn is over')
-                hitOrStay = "No"
+    if checkBlackjack(hand) != 1:
+        hand, deck = playBlackjack(hand, deck)
+    finalHands.append(hand)
 
+   
 dealerAction(dealerHand, deck)
 
 for player in range(players):
-    hand = hands[player]
-    results(hand, dealerHand)
+    print('Here are the results for Player {}: '.format(player+1))
+    hand = finalHands[player]
+    if any(isinstance(x, list) for x in hand):
+        for subHand in hand:
+            results(subHand, dealerHand)
+    else:
+        results(hand, dealerHand)
+
 
