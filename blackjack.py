@@ -53,7 +53,7 @@ def calcValue(hand):
     flagAce = hand.count("A")
     sortedHand = hand
     for aces in range(flagAce):
-        sortedHand = sortHand(hand)
+        sortedHand = sortHand(sortedHand)
 
     for card in sortedHand:
         if card != "A":
