@@ -183,47 +183,50 @@ def checkBlackjack(hand, bet):
         return 1, bet
     return 0, bet
 
-players = int(input("How many people would like to play? "))
-deck = singleDeck * ((players // 3) + 1)
-bets = []
-for player in range(players):
-    bet = int(input("Player {}, Place your bet! ".format(player + 1)))
-    if bet < 0:
-        bet = 0
-    bets.append(bet)
-hands, deck, dealerHand = drawHands(players, deck)
 
-if players > 1:
-    print("Here are the hands... {} and the Dealer has {}".format(hands[0:-1], hands[-1]))
+def main():
+    players = int(input("How many people would like to play? "))
+    deck = singleDeck * ((players // 3) + 1)
+    bets = []
+    for player in range(players):
+        bet = int(input("Player {}, Place your bet! ".format(player + 1)))
+        if bet < 0:
+            bet = 0
+        bets.append(bet)
+    hands, deck, dealerHand = drawHands(players, deck)
 
-finalHands = []
-finalBets = []
-for player in range(players):
-    print("Player {} it is your turn...".format(player + 1))
-    time.sleep(1)
-    bet = bets[player]
-    time.sleep(1)
-    hand = hands[player]
-    print("Your hand is {}, while the Dealer has {}".format(hands[player], hands[-1]))
-    time.sleep(1)
-    if checkBlackjack(hand, bet)[0] == 1:
-        bet = checkBlackjack(hand, bet)[1]
-    else:
-        hand, deck, bet = playBlackjack(hand, deck, bet)
-    finalBets.append(bet)
-    finalHands.append(hand)
+    if players > 1:
+        print("Here are the hands... {} and the Dealer has {}".format(hands[0:-1], hands[-1]))
 
-dealerAction(dealerHand, deck)
+    finalHands = []
+    finalBets = []
+    for player in range(players):
+        print("Player {} it is your turn...".format(player + 1))
+        time.sleep(1)
+        bet = bets[player]
+        time.sleep(1)
+        hand = hands[player]
+        print("Your hand is {}, while the Dealer has {}".format(hands[player], hands[-1]))
+        time.sleep(1)
+        if checkBlackjack(hand, bet)[0] == 1:
+            bet = checkBlackjack(hand, bet)[1]
+        else:
+            hand, deck, bet = playBlackjack(hand, deck, bet)
+        finalBets.append(bet)
+        finalHands.append(hand)
 
-for player in range(players):
-    print('Here are the results for Player {}: '.format(player+1))
-    bet = finalBets[player]
-    hand = finalHands[player]
-    if any(isinstance(x, list) for x in hand):
-        for ind, subHand in enumerate(hand):
-            subBet = bet[ind]
-            results(subHand, dealerHand, subBet)
-    else:
-        results(hand, dealerHand, bet)
+    dealerAction(dealerHand, deck)
 
+    for player in range(players):
+        print('Here are the results for Player {}: '.format(player+1))
+        bet = finalBets[player]
+        hand = finalHands[player]
+        if any(isinstance(x, list) for x in hand):
+            for ind, subHand in enumerate(hand):
+                subBet = bet[ind]
+                results(subHand, dealerHand, subBet)
+        else:
+            results(hand, dealerHand, bet)
 
+if __name__ == '__main__':
+    main()
