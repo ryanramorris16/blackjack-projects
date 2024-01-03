@@ -2,11 +2,6 @@
 import random
 import time
 
-cards = ["A", "K", "Q", "J", 10, 9, 8, 7, 6, 5, 4, 3, 2]
-cardVal = [[11, 1], 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2]
-
-singleDeck = cards * 4
-
 def drawHands(players, deck):
     totalPlayers = players + 1           #draw a hand for the dealer too
 
@@ -49,6 +44,9 @@ def hit(hand, deck):
 
 
 def calcValue(hand):
+    cards = ["A", "K", "Q", "J", 10, 9, 8, 7, 6, 5, 4, 3, 2]
+    cardVal = [[11, 1], 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+
     handVal = 0
     flagAce = hand.count("A")
     sortedHand = hand
@@ -183,10 +181,14 @@ def checkBlackjack(hand, bet):
         return 1, bet
     return 0, bet
 
+def createDeck(numPlayers):
+    cards = ["A", "K", "Q", "J", 10, 9, 8, 7, 6, 5, 4, 3, 2]
+    deck = cards * (4 * (numPlayers // 3 + 1))
+    return deck
 
 def main():
     players = int(input("How many people would like to play? "))
-    deck = singleDeck * ((players // 3) + 1)
+    deck = createDeck(players)
     bets = []
     for player in range(players):
         bet = int(input("Player {}, Place your bet! ".format(player + 1)))
