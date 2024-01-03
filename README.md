@@ -17,3 +17,4 @@ Includes functions:
 - results - calculates whether a player won or lost their hand and how much their return was based on initial bet
 - splitter - generates 2 split hands if a player gets 2 of the same card and wants to double their bet
 - checkBlackjack - returns 1 if the value of a hand is 21, 0 else
+- createDeck - creates a deck of cards with more decks depending on the amount of players
