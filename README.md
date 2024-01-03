@@ -18,3 +18,15 @@ Includes functions:
 - splitter - generates 2 split hands if a player gets 2 of the same card and wants to double their bet
 - checkBlackjack - returns 1 if the value of a hand is 21, 0 else
 - createDeck - creates a deck of cards with more decks depending on the amount of players
+
+## Strategy.py
+
+Python script to determine the optimal strategy for a given hand & dealer card
+Includes functions:
+
+- splitStrategy - determines if you can and should split your hand
+- standStrategy - determines if you should stand
+- doubleStrategy - deteremins if you can and should double
+- hitStrategy - determines if you should hit
+
+**These functions currently need to be ran in order to output the correct outcome**
