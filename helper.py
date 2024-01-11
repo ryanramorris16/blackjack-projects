@@ -1,6 +1,7 @@
 import tkinter as tk
 from functools import partial
 from tkinter import Radiobutton
+import strategy
 
 def close_window():
     window.destroy()
@@ -9,9 +10,15 @@ def add_to_hand(text):
     if selection.get() == 1:
         hand.append(text)
         hand_label["text"] = "Player hand: " + ", ".join(hand)
-    elif selection.get() == 2 and len(dealer) < 1:
-        dealer.append(text)
+    elif selection.get() == 2:
+        dealer[0] = text
         dealer_label["text"] = "Dealer hand: " + ", ".join(dealer)
+
+def try_int(x):
+    try:
+        return int(x)
+    except ValueError:
+        return x
 
 window = tk.Tk()
 window.title("Blackjack helper")
@@ -40,7 +47,7 @@ hand_label = tk.Label(window, text="Player hand:")
 hand_label.pack(pady=gap_size)
 
 # Create the dealer label
-dealer = []
+dealer = [0]
 dealer_label = tk.Label(window, text="Dealer card:")
 dealer_label.pack(pady=gap_size)
 
@@ -70,4 +77,14 @@ go_button.pack(pady=gap_size)  # Add padding for the gap
 
 window.mainloop()
 
-print(hand, dealer)
+hand = [try_int(x[:-1]) for x in hand]
+dealer = try_int(dealer[0][:-1])
+
+if strategy.splitStrategy(hand, dealer):
+    print("You should split your hand.")
+elif strategy.standStrategy(hand, dealer):
+    print("You should stand.")
+elif strategy.doubleStrategy(hand, dealer):
+    print("You should double.")
+elif strategy.hitStrategy(hand, dealer):
+    print("You should hit.")
