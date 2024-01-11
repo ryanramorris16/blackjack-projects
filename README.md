@@ -30,3 +30,7 @@ Includes functions:
 - hitStrategy - determines if you should hit
 
 **These functions currently need to be ran in order to output the correct outcome**
+
+## Helper.py
+
+Python script to open a GUI for inputs on player's hand and dealer's upcard.
