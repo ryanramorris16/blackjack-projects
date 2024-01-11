@@ -34,3 +34,10 @@ Includes functions:
 ## Helper.py
 
 Python script to open a GUI for inputs on player's hand and dealer's upcard.
+
+## To-Do
+
+- Add "New Hand" button to helper and don't auto close it
+- Change "Go" to "Submit" and output the strategy result in helper
+- Add all hands on table option to helper for card counting?
+- Add card counting to strategy or probabilistic model for card counting?
