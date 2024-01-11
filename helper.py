@@ -78,7 +78,7 @@ go_button.pack(pady=gap_size)  # Add padding for the gap
 window.mainloop()
 
 hand = [try_int(x[:-1]) for x in hand]
-dealer = try_int(dealer[0][:-1])
+dealer = [try_int(dealer[0][:-1])]
 
 if strategy.splitStrategy(hand, dealer):
     print("You should split your hand.")
