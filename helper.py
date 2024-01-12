@@ -15,7 +15,7 @@ def add_to_hand(text):
         hand_label["text"] = "Player hand: " + ", ".join(hand)
     elif selection.get() == 2:
         dealer[0] = text
-        dealer_label["text"] = "Dealer hand: " + ", ".join(dealer)
+        dealer_label["text"] = "Dealer card: " + ", ".join(dealer)
 
 def try_int(x):
     try:
@@ -80,7 +80,7 @@ def reset_window():
 
     # Update labels
     hand_label["text"] = "Player hand:"
-    dealer_label["text"] = "Dealer hand:"
+    dealer_label["text"] = "Dealer card:"
 
     # Close the current new window
     new_window.destroy()
@@ -128,7 +128,9 @@ for row, suit in enumerate(suits):
             grid_frame, 
             text=button_text, 
             fg=color,
-            command=partial(add_to_hand,button_text)
+            command=partial(add_to_hand,button_text),
+            activeforeground="white", 
+            activebackground=color
         )
         button.grid(row=row, column=col)
         row_buttons.append(button)
